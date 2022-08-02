@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.DropBoxManager
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val transaction = supportFragmentManager.beginTransaction()
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navView = findViewById<NavigationView>(R.id.drawer_nav_view)
@@ -41,5 +44,19 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(drawerToggle)
         // setDisplayHomeAsUpEnabled 메서드를 호출해서 햄버거 아이콘을 표시하고 해당 아이콘을 클릭해 내비게이션 드로어를 열고 닫을 수 있도록 설
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        drawerToggle.syncState()  //햄버거 열면 화살표로 변하고 끄면 햄버거 메뉴로 변하는 것
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
